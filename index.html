@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houston Car Washing | Professional Detailing</title>
+    <!-- Favicon link -->
+    <link rel="icon" type="image/png" href="Images/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAAlaRxA3KbFZr2em3TUeirbZdGSngwcyHMItxDS_YPYIFuSH1BfIKdY5wRjmhJMC0XvPmC7t0Lh5S57c&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --bg-soft: #f8fafc;
+        }
+
+        body {
+            background-color: var(--bg-soft);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1e293b;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #f1f5f9;
+        }
+
+        .day-cell:hover:not(.empty):not(.disabled) {
+            background-color: #f0fdf4;
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .day-cell.selected {
+            background-color: var(--primary) !important;
+            color: white !important;
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.2);
+        }
+
+        .day-cell.today {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .day-cell.disabled {
+            color: #cbd5e1;
+            cursor: not-allowed;
+            opacity: 0.5;
+            background: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .hero-text { font-size: 2.5rem; line-height: 1.1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo linked to Images/logo.png -->
+            <a href="Images/logo.png" class="flex items-center space-x-3 cursor-pointer" target="_blank">
+                <img src="Images/logo.png" alt="Logo" class="h-10 w-auto object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2996/2996168.png'">
+                <span class="font-extrabold text-xl tracking-tight text-slate-900 uppercase">Houston Car Washing</span>
+            </a>
+            <div class="flex space-x-8 text-sm font-bold uppercase tracking-widest text-slate-500">
+                <button onclick="showPage('home')" id="nav-home" class="nav-link active">Main</button>
+                <button onclick="showPage('book')" id="nav-book" class="nav-link">Book</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-6 md:p-12">
+
+        <!-- HOME PAGE SECTION -->
+        <div id="page-home" class="w-full max-w-6xl grid lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8">
+                <h2 class="hero-text text-6xl font-extrabold text-slate-900 leading-[1.1]">
+                    Houston's Premier <br>
+                    <span class="text-green-600">Detailed</span>
+                    <br>Car Wash.
+                </h2>
+                <p class="text-slate-500 text-lg md:text-xl leading-relaxed max-w-lg">
+                    We bring the showroom shine directly to your driveway. Experience professional detailing with our eco-friendly mobile service.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button onclick="showPage('book')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-5 rounded-2xl shadow-xl shadow-green-200 transition-all hover:-translate-y-1 active:scale-95 uppercase tracking-widest text-sm">
+                        Book Your Slot
+                    </button>
+                    <button class="bg-white border border-slate-200 text-slate-700 font-bold px-10 py-5 rounded-2xl transition-all hover:bg-slate-50 uppercase tracking-widest text-sm">
+                        Our Services
+                    </button>
+                </div>
+                
+                <div class="flex items-center space-x-6 pt-4">
+                    <div class="flex -space-x-3">
+                        <img class="w-10 h-10 rounded-full border-4 border-white" src="https://i.pravatar.cc/100?u=1" alt="">
+                        <img class="w-10 h-10 rounded-full border-4 border-white" src="https://i.pravatar.cc/100?u=2" alt="">
+                        <img class="w-10 h-10 rounded-full border-4 border-white" src="https://i.pravatar.cc/100?u=3" alt="">
+                    </div>
+                    <p class="text-sm font-semibold text-slate-500"><span class="text-slate-900">500+</span> Happy Houstonians</p>
+                </div>
+            </div>
+            
+            <div class="relative hidden lg:block">
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div class="glass-card p-4 rounded-[3.5rem] shadow-2xl rotate-2 relative z-10">
+                    <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=80" alt="Detailing" class="rounded-[2.5rem] w-full shadow-inner grayscale-[20%] hover:grayscale-0 transition-all duration-700">
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKING PAGE SECTION -->
+        <div id="page-book" class="hidden w-full max-w-xl bg-white rounded-[3rem] shadow-2xl border border-slate-100 overflow-hidden">
+            <div class="bg-slate-900 p-10 text-white flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight uppercase">Secure Booking</h1>
+                    <p class="text-slate-400 text-sm font-semibold uppercase tracking-widest">Detailed Car Wash</p>
+                </div>
+                <!-- Logo linked to Images/logo.png -->
+                <a href="Images/logo.png" target="_blank">
+                    <img src="Images/logo.png" alt="Logo" class="h-12 w-auto brightness-0 invert opacity-50">
+                </a>
+            </div>
+
+            <form action="https://formspree.io/f/tarzanya793p@gmail.com" method="POST" id="mainForm" target="_blank" class="p-8 space-y-8">
+                <!-- Calendar -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 id="calendarTitle" class="font-extrabold text-slate-900 uppercase tracking-widest text-xs"></h3>
+                        <div class="flex space-x-2">
+                            <button type="button" id="prevMonth" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors">❮</button>
+                            <button type="button" id="nextMonth" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors">❯</button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-3xl">
+                        <div class="calendar-grid mb-4">
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">S</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">M</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">T</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">W</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">T</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">F</div>
+                            <div class="text-center text-[10px] font-black text-slate-300 uppercase">S</div>
+                        </div>
+                        <div id="calendarDays" class="calendar-grid"></div>
+                    </div>
+                    <input type="hidden" name="booking_date" id="selectedDateInput" required>
+                </div>
+
+                <!-- Info -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">First Name</label>
+                        <input type="text" name="first_name" required placeholder="John" class="w-full px-5 py-3.5 rounded-2xl border border-slate-100 outline-none focus:border-green-500 bg-slate-50 font-semibold text-sm transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
+                        <input type="text" name="last_name" required placeholder="Doe" class="w-full px-5 py-3.5 rounded-2xl border border-slate-100 outline-none focus:border-green-500 bg-slate-50 font-semibold text-sm transition-all">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Service Address</label>
+                    <input type="text" name="address" required placeholder="123 Houston St, TX" class="w-full px-5 py-3.5 rounded-2xl border border-slate-100 outline-none focus:border-green-500 bg-slate-50 font-semibold text-sm transition-all">
+                </div>
+
+                <!-- Payment -->
+                <div class="space-y-4">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Payment Method</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button type="button" onclick="selectPayment('Cash')" id="payCash" class="payment-option py-4 rounded-2xl font-bold text-xs bg-slate-50">CASH</button>
+                        <button type="button" onclick="selectPayment('Card')" id="payCard" class="payment-option py-4 rounded-2xl font-bold text-xs bg-slate-50">CARD</button>
+                        <button type="button" onclick="selectPayment('Cash App')" id="payCashApp" class="payment-option py-4 rounded-2xl font-bold text-xs bg-slate-50">CASH APP</button>
+                    </div>
+                    <input type="hidden" name="payment_method" id="paymentMethodInput" required>
+
+                    <div id="cashAppUI" class="hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div class="bg-blue-50/50 border border-blue-100 p-6 rounded-3xl space-y-4">
+                            <label class="block text-xs font-bold text-blue-900">Enter Payment Amount</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-blue-900">$</span>
+                                <input type="number" name="cashapp_amount" placeholder="0.00" class="w-full pl-8 pr-4 py-3 rounded-xl bg-white border border-blue-100 font-bold text-slate-900 outline-none focus:ring-2 ring-blue-200">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="cardUI" class="hidden animate-in fade-in slide-in-from-top-2 duration-300 p-6 bg-slate-50 rounded-3xl border border-slate-100 text-center">
+                        <p class="text-xs font-bold text-slate-400 mb-6 uppercase tracking-wider">Payment via secure gateway</p>
+                        <div id="paypal-container-ELGW3B5AE4NXJ"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-5 rounded-3xl shadow-2xl shadow-slate-200 transition-all active:scale-95 text-sm tracking-[0.2em] uppercase">
+                    Book Your Slot
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="bg-white py-12 border-t border-slate-50">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div class="flex items-center space-x-3 grayscale opacity-60">
+                <a href="Images/logo.png" target="_blank">
+                    <img src="Images/logo.png" alt="Logo" class="h-6 w-auto" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2996/2996168.png'">
+                </a>
+                <span class="text-xs font-black uppercase tracking-tight text-slate-900">Houston Car Washing</span>
+            </div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">© 2026 Professional Detailers. Houston, TX.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const home = document.getElementById('page-home');
+            const book = document.getElementById('page-book');
+            const navHome = document.getElementById('nav-home');
+            const navBook = document.getElementById('nav-book');
+
+            if (pageId === 'home') {
+                home.classList.remove('hidden');
+                book.classList.add('hidden');
+                navHome.classList.add('active');
+                navBook.classList.remove('active');
+            } else {
+                home.classList.add('hidden');
+                book.classList.remove('hidden');
+                navHome.classList.remove('active');
+                navBook.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const daysContainer = document.getElementById('calendarDays');
+        const title = document.getElementById('calendarTitle');
+        const dateInput = document.getElementById('selectedDateInput');
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let currentViewDate = new Date();
+        let selectedDateStr = "";
+
+        function renderCalendar() {
+            daysContainer.innerHTML = '';
+            const year = currentViewDate.getFullYear();
+            const month = currentViewDate.getMonth();
+            title.innerText = `${months[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            for (let i = 0; i < firstDay; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell empty';
+                daysContainer.appendChild(cell);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                const dObj = new Date(year, month, d);
+                const dStr = `${months[month]} ${d}, ${year}`;
+                cell.className = 'day-cell';
+                cell.innerText = d;
+
+                if (dObj < today) {
+                    cell.classList.add('disabled');
+                } else {
+                    if (dStr === selectedDateStr) cell.classList.add('selected');
+                    if (dObj.getTime() === today.getTime()) cell.classList.add('today');
+                    cell.onclick = () => {
+                        selectedDateStr = dStr;
+                        dateInput.value = dStr;
+                        renderCalendar();
+                    };
+                }
+                daysContainer.appendChild(cell);
+            }
+        }
+
+        document.getElementById('prevMonth').onclick = () => {
+            currentViewDate.setMonth(currentViewDate.getMonth() - 1);
+            renderCalendar();
+        };
+        document.getElementById('nextMonth').onclick = () => {
+            currentViewDate.setMonth(currentViewDate.getMonth() + 1);
+            renderCalendar();
+        };
+
+        function selectPayment(method) {
+            document.getElementById('paymentMethodInput').value = method;
+            document.querySelectorAll('.payment-option').forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white', 'shadow-lg');
+                btn.classList.add('bg-slate-50');
+            });
+            
+            const activeBtn = document.getElementById('pay' + method.replace(' ', ''));
+            activeBtn.classList.remove('bg-slate-50');
+            activeBtn.classList.add('bg-green-600', 'text-white', 'shadow-lg');
+
+            document.getElementById('cashAppUI').classList.toggle('hidden', method !== 'Cash App');
+            document.getElementById('cardUI').classList.toggle('hidden', method !== 'Card');
+        }
+
+        if (window.paypal) {
+            paypal.HostedButtons({
+                hostedButtonId: "ELGW3B5AE4NXJ",
+            }).render("#paypal-container-ELGW3B5AE4NXJ");
+        }
+
+        renderCalendar();
+    </script>
+</body>
+</html>
